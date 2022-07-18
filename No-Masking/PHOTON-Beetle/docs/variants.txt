@@ -1,0 +1,48 @@
+Na, Nm, Nc, Nh : The number of complete blocks of associated data, plaintext, ciphertext, and hash message, respectively
+Ina, Inm, Inc, Inh : Binary variables equal to 1 if the last block of the respective data type is incomplete, and 0 otherwise
+Bla, Blm, Blc, Blh : The number of bytes in the incomplete block of associated data, plaintext, ciphertext, and hash message, respectively
+
+VI
+
+a. Reference software implementation
+	photonbeetleaead128rate128v1
+	photonbeetlehash256rate32v1 @
+	https://csrc.nist.gov/CSRC/media/Projects/Lightweight-Cryptography/documents/round-1/submissions/photon-beetle.zip
+
+b. Design Goal
+	- Focused on throughput
+	- Constraints: 
+		- 2k LUTs
+		- 0 BRAMs/DSPs
+
+c. Supported maximum sizes of inputs
+	2^50-1
+
+d.  Non-default values of generics and constants
+	N/A
+ 
+e. Block sizes
+	AD Block Size: 128 bits
+	PT/CT Block Size: 128 bits
+	Hash Message Block Size: 32 bits
+
+f. Execution times
+	
+	Execution time of authenticated encryption: 
+		6 + (1 + 28*Na) + (1 + 33*Nm) + Blm + 29
+	Execution time of authenticated decryption: 
+		6 + (1 + 28*Na) + (1 + 33*Nm) + Blm + 30
+	Execution time for hashing:
+		3 + (Nh < 4 ? Nh + Inh : 4) + (25*(Nh > 4 ? Nh-4 : 0)) + 56
+
+g.  Latencies
+
+	Latency of authenticated encryption:
+	6
+
+	Latency of authenticated decryption:
+	6
+
+h. Difference between execution times for a new key and the same key
+	
+	6
